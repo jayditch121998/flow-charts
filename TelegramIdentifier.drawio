@@ -1,47 +1,81 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" version="28.2.4">
-  <diagram name="Page-1" id="C17yyzf7lqGVq2bGUu3H">
-    <mxGraphModel>
+  <diagram name="Telegram Verification Flow" id="C17yyzf7lqGVq2bGUu3H">
+    <mxGraphModel dx="3565" dy="1988" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="8000" pageHeight="3000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="2" value="" style="rhombus;strokeWidth=2;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="81" y="162" width="28" height="28" as="geometry" />
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-11" value="User: clicks bot link (t.me/jayNmsBot?start=&lt;code&gt;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2C6BED;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="780" y="480" width="260" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="3" value="" style="ellipse;fillColor=strokeColor;" vertex="1" parent="1">
-          <mxGeometry x="88" y="8" width="14" height="14" as="geometry" />
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-12" value="n8n: Telegram Trigger (receives /start)&lt;br&gt;message.text = &#39;/start &lt;code&gt;&#39;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#E6A800;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="760" y="660" width="300" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="4" value="IsPositive" style="rounded=1;arcSize=20;strokeWidth=2" vertex="1" parent="1">
-          <mxGeometry x="54" y="72" width="82" height="40" as="geometry" />
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-13" value="Decision: contains code after /start ?" style="rhombus;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#657786;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="830" y="908" width="160" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="5" value="False" style="rounded=1;arcSize=20;strokeWidth=2" vertex="1" parent="1">
-          <mxGeometry x="19" y="263" width="53" height="40" as="geometry" />
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-14" value="HTTP Request: POST /api/telegram/verify\n(body: { code, telegramChatId })" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1F8A44;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="750" y="1215" width="320" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="6" value="True" style="rounded=1;arcSize=20;strokeWidth=2" vertex="1" parent="1">
-          <mxGeometry x="122" y="263" width="47" height="40" as="geometry" />
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-15" value="Valid code → HR platform maps userId ↔ telegramChatId" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2E7D32;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="262" y="1220" width="320" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="7" value="" style="curved=1;startArrow=none;;exitX=0.53;exitY=1;entryX=0.51;entryY=0;" edge="1" parent="1" source="3" target="4">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points" />
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-16" value="Telegram Send: &#39;✅ Verification Successful! You are now connected.&#39;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FFA000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1366" y="918" width="320" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-17" value="Invalid/Expired → Send error message and stop\n(Increment attempt counter)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#C62828;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1745" y="823" width="320" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-18" value="Blocked due to spam → Send blocked message" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#D84315;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="2309" y="1057" width="320" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-19" value="Application sends webhook to n8n (userId, message)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#0B69FF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="224" y="1567" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-20" value="n8n: Webhook Node (/notify)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#E6A800;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="746" y="1567" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-21" value="HTTP Request: GET /api/telegram/lookup?userId=... → returns telegramChatId" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1F8A44;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1199" y="1567" width="360" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-22" value="Telegram Send Message → deliver to telegramChatId" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2E7D32;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="1453" width="320" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-11" target="OxjjS2Q4pXO3jtwhtiai-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-12" target="OxjjS2Q4pXO3jtwhtiai-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-25" value="yes (has code)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2E7D32;fontSize=11;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-13" target="OxjjS2Q4pXO3jtwhtiai-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-26" value="no (plain /start)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=light-dark(#A50040,#990000);fontSize=11;fillColor=#d80073;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-13" target="OxjjS2Q4pXO3jtwhtiai-16">
+          <mxGeometry x="0.0015" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="8" value="" style="curved=1;startArrow=none;;exitX=0.51;exitY=1;entryX=0.52;entryY=0;" edge="1" parent="1" source="4" target="2">
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-27" value="API: success" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2E7D32;fontSize=11;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-14" target="OxjjS2Q4pXO3jtwhtiai-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-28" value="map &gt; reply" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2E7D32;fontSize=11;" edge="1" parent="1" target="OxjjS2Q4pXO3jtwhtiai-16">
           <mxGeometry relative="1" as="geometry">
-            <Array as="points" />
+            <mxPoint x="1690" y="1283" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9" value="if n &amp;lt; 0" style="curved=1;startArrow=none;;exitX=0.02;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="2" target="5">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="45" y="227" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-29" value="API: invalid" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#C62828;fontSize=11;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-14" target="OxjjS2Q4pXO3jtwhtiai-17">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="10" value="if n &gt;= 0" style="curved=1;startArrow=none;;exitX=1.01;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="2" target="6">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="145" y="227" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-30" value="too many attempts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D84315;fontSize=11;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-17" target="OxjjS2Q4pXO3jtwhtiai-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-19" target="OxjjS2Q4pXO3jtwhtiai-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-20" target="OxjjS2Q4pXO3jtwhtiai-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OxjjS2Q4pXO3jtwhtiai-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="OxjjS2Q4pXO3jtwhtiai-21" target="OxjjS2Q4pXO3jtwhtiai-22">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
